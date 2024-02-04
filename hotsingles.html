@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hot Wheels</title>
+  <link rel="icon" type="image/png" href="logo2.png">
+  <link rel="stylesheet" href="css/swiper-bundle.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="landing.css">
+  <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+  <style>
+    .hidden {
+      display: none;
+    }
+    
+    .underline {
+      position: relative;
+    }
+
+    .underline:before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background-color: transparent;
+      transition: background-color 0.3s ease;
+    }
+
+    .nav-bar a:hover {
+      color: black;
+    }
+
+    .nav-bar .underline:hover:before {
+      background-color: black;
+
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="nav-bar">
+      <a href="title.png" class="logo">Hot wheels</a>
+      <div class="navigation">
+        <div class="nav-items">
+          <i class="uil uil-times nav-close-btn"></i>
+          <a href="#" class="underline"><i class="uil uil-home"></i> Home</a>
+          <a href="conformation.html" class="underline"><i class="uil uil-compass"></i> Explore</a>
+          <a href="creators.html" class="underline"><i class="uil uil-envelope"></i> Team</a>
+          <a href="login.html" class="underline">login</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="home">
+    <div class="media-icons">
+      <a href="https://www.facebook.com/BMW"><i class="uil uil-facebook-f"></i></a>
+      <a href="https://www.instagram.com/_g_wagon._/"><i class="uil uil-instagram"></i></a>
+      <a href="https://twitter.com/MaseratiIndia"><i class="uil uil-twitter"></i></a>
+    </div>
+
+    <div class="swiper bg-slider">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <img src="https://www.autocar.co.uk/sites/autocar.co.uk/files/styles/gallery_slide/public/images/car-reviews/first-drives/legacy/16-mclaren-765lt-2020-uk-fd-cornering_0.jpg?itok=qFWTaNjp" alt="Hot Singles">
+          <div class="text-content">
+            <h2 class="title">Autumn <span>Season</span></h2>
+            <p>Hot Singles-1</p>
+            <button class="read-btn">Read More <i class="uil uil-arrow-right"></i></button>
+          </div>
+        </div>
+        <div class="swiper-slide dark-layer">
+          <img src="https://images4.alphacoders.com/967/96758.jpg" alt="">
+          <div class="text-content">
+            <h2 class="title">Winter <span>Season</span></h2>
+            <p>Hot Signles-2</p>
+            <button class="read-btn">Read More <i class="uil uil-arrow-right"></i></button>
+          </div>
+        </div>
+        <div class="swiper-slide dark-layer">
+          <img src="https://cutewallpaper.org/23/abstract-car-wallpaper/67262077.jpg" alt="">
+          <div class="text-content">
+            <h2 class="title">Summer <span>Season</span></h2>
+            <p>Hot Singles-3</p>
+            <button class="read-btn">Read More <i class="uil uil-arrow-right"></i></button>
+          </div>
+        </div>
+        <div class="swiper-slide">
+          <img src="https://www.royalbbqdubai.com/uploads/files/images/blog/dubai-deira-car-rental-speedydrive.jpg" alt="">
+          <div class="text-content">
+            <button class="read-btn">Read More <i class="uil uil-arrow-right"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about section">
+    <h2>Hot Wheels, Only for You!</h2>
+    <p>Ever thought that there would be a site where you can order your desired vehicles at a minimum cost or rent them?</p>
+    <p>Hot Wheels is that site that's going to bring you out of loneliness and get you your favorite cars with all the features you want.</p>
+    <p>So, what's up my fellow mates? Dive in for your Hot Wheels!</p>
+
+    <div class="newsletter">
+      <h3>Sign up now and be the first to know about exclusive offers, latest news & tips!</h3>
+      <button id="newsletter-button" class="join-btn" onclick="showNewsletterFeatures()">Join our Newsletter</button>
+      <div id="newsletter-features" class="hidden">
+        <h3>Newsletter Features</h3>
+        <ul>
+          <li>Exclusive deals and discounts</li>
+          <li>Latest updates on new car models</li>
+          <li>Tips and tricks for car maintenance</li>
+          <li>Invitations to special events and promotions</li>
+        </ul>
+        <form id="newsletter-form" onsubmit="validateForm(event)">
+          <input type="text" id="name" placeholder="Your Name" required>
+          <input type="email" id="email" placeholder="Your Email" required>
+          <label for="privacy">
+            <input type="checkbox" id="privacy" required>
+            I accept the privacy statement
+          </label>
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+
+  <script src="js/swiper-bundle.min.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    function showNewsletterFeatures() {
+      const newsletterButton = document.getElementById('newsletter-button');
+      const newsletterFeatures = document.getElementById('newsletter-features');
+
+      newsletterButton.style.display = 'none';
+      newsletterFeatures.classList.remove('hidden');
+    }
+
+    function validateForm(event) {
+      event.preventDefault();
+
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const privacy = document.getElementById('privacy').checked;
+
+      if (name === '' || email === '' || !privacy) {
+        alert('Please fill in all required fields and accept the privacy statement.');
+        return;
+      }
+
+      // Form is valid, proceed with newsletter subscription
+      subscribeToNewsletter(name, email);
+    }
+
+    function subscribeToNewsletter(name, email) {
+      // Send AJAX request to server-side script to process subscription
+      const xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            alert(xhr.responseText); // Display success message or handle response as needed
+          } else {
+            alert('Error: ' + xhr.status); // Display error message or handle response as needed
+          }
+        }
+      };
+
+      // Prepare the data to be sent
+      const data = new FormData();
+      data.append('name', name);
+      data.append('email', email);
+
+      // Set up the request
+      xhr.open('POST', 'subscribe.php', true);
+      xhr.send(data);
+    }
+  </script>
+
+</body>
+
+</html>

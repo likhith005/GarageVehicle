@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="icon" type="image.png" href="logo5.png">
+  <title>Shopping Cart</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: flex-start;
+      background-image: url('https://images.squarespace-cdn.com/content/v1/55d0c867e4b0ef57d7d0ef98/1592074072240-7HOLPXGJH4GUFS76V8CM/ezgif.com-optimize+%282%29.gif');
+      background-repeat: repeat;
+      background-size: cover;
+      color: white; /* Set text color to white */
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      width: 65%;
+      margin-top: 40px;
+    }
+    .box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 1px solid #0b0000;
+      padding: 10px;
+      margin: 10px;
+      width: 45%;
+    }
+    .box .img-box {
+      margin-bottom: 50px;
+    }
+    .box .img-box img {
+      width: 250px;
+      height: 350px;
+    }
+    .box .bottom {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .box p {
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+    .box h2 {
+      font-size: 18px;
+      margin-top: 0;
+    }
+    .cart {
+      position: absolute;
+      top: 50px;
+      right: 60px;
+      color: white; /* Set text color to white */
+    }
+    .cart h1 {
+      margin-top: 0;
+    }
+    .cart-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .cart-item .row-img {
+      margin-right: 100px;
+    }
+    .cart-item .rowimg {
+      width: 100px;
+      height: 100px;
+    }
+    .remove-button {
+      cursor: pointer;
+      margin-left: 10px;
+      padding: 5px 10px;
+      border: none;
+      background-color: #ccc;
+      color: #fff;
+      font-weight: bold;
+      font-size: 12px;
+    }
+    .search-bar {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+    }
+    .search-bar input {
+      width: 200px;
+      padding: 5px;
+      font-size: 16px;
+    }
+    #notFound{
+      color: black;
+      padding: 50px;
+      position: relative;
+      top: auto;
+      left: 500px;
+      /* border: 2px solid #fbfcfb;
+      background-color: rgb(238, 245, 238);
+      border-radius: 20px; */
+      
+    }
+  </style>
+</head>
+<body>
+  <div class="search-bar">
+    <input id="searchInput" type="text" placeholder="Search products">
+  </div>
+
+  <div class="cart">
+    <h1>Shopping Cart</h1>
+    <div id="cartItem"></div>
+    <div id="total"></div>
+  </div>
+
+  <div class="container" id="root"></div>
+  <div id="notFound" class="not-found"></div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    const cart = []; // Declare cart array
+
+    const product = [
+    {
+        id: 0,
+        image: 'https://www.wsupercars.com/thumbnails-phone/McLaren/2021-McLaren-765LT-001.jpg',
+        title: 'Mclaren p1',
+        price: 310500,
+    },
+    {
+        id: 1,
+        image: 'https://images.hdqwalls.com/download/porsche-cayenne-coupe-5k-16-1280x2120.jpg',
+        title: 'Porsche Cayanne',
+        price: 113100,
+    },
+    {
+        id: 2,
+        image: 'https://thumbs.dreamstime.com/b/vertical-shot-luxury-beautiful-purple-audi-car-driving-highway-vertical-shot-luxury-beautiful-purple-266104486.jpg',
+        title: 'Audi A4',
+        price: 39900,
+    },
+    {
+        id: 3,
+        image: 'https://s1.1zoom.me/b6361/3/Audi_Sportback_RS_7_2020_Front_Red_Metallic_570939_640x960.jpg',
+        title: 'Audi A6',
+        price: 56900,
+    },
+    {
+        id: 4,
+        image: 'https://i.pinimg.com/originals/f0/4b/f1/f04bf15ad965828cb21e7fae0ebb0de5.jpg',
+        title: 'lamborghini urus',
+        price: 235000,
+    },
+    {
+        id: 5,
+        image: 'https://s.abcnews.com/images/US/HT-lamborghini-aventador-s-04-jpo-170623_4x5_992.jpg',
+        title: 'lamborghini Aventendaour',
+        price: 825914,
+    },
+    {
+        id: 6,
+        image: 'https://www.mad4wheels.com/img/free-car-images/mobile/17752/aston-martin-dbs-superleggera-concorde-edition-2019-614823.jpg',
+        title: 'Austin Martin',
+        price: 143900,
+    },
+    {
+        id: 7,
+        image: 'https://geekculture.co/wp-content/uploads/2019/12/mini-cooper-s-review-6.jpg',
+        title: 'Mini Cooper',
+        price: 38365,
+    },
+    ];
+
+    displayProducts(product);
+
+    function addtocart(id) {
+      const selectedItem = product.find(item => item.id === id);
+      cart.push({ ...selectedItem });
+      displaycart();
+    }
+
+    function delElement(index) {
+      cart.splice(index, 1);
+      displaycart();
+    }
+
+    function displaycart() {
+      let total = 0;
+      document.getElementById("cartItem").innerHTML = cart
+        .map((item, index) => {
+          total += item.price;
+          return (
+            `<div class='cart-item'>
+              <div class='row-img'>
+                <img class='rowimg' src=${item.image}>
+              </div>
+              <p style='font-size:12px;'>${item.title}</p>
+              <h2 style='font-size: 15px;'>$ ${item.price}.00</h2>
+              <button class='remove-button' onclick='delElement(${index})'>Remove</button>
+            </div>`
+          );
+        })
+        .join('');
+
+      document.getElementById("total").innerHTML = `<h2>Total: $ ${total}.00</h2>`;
+    }
+
+    function displayProducts(products) {
+      const root = document.getElementById('root');
+
+      root.innerHTML = products
+        .map(
+          (product) => `
+            <div class='box'>
+              <div class='img-box'>
+                <img src=${product.image} alt=${product.title}>
+              </div>
+              <div class='bottom'>
+                <p>${product.title}</p>
+                <h2>$ ${product.price}.00</h2>
+                <button onclick='addtocart(${product.id})'>Add to Cart</button>
+              </div>
+            </div>
+          `
+        )
+        .join('');
+    }
+
+    function searchProducts() {
+      const searchInput = document.getElementById('searchInput').value.toLowerCase();
+      const filteredProducts = product.filter((product) =>
+        product.title.toLowerCase().includes(searchInput)
+      );
+
+      if (filteredProducts.length > 0) {
+        document.getElementById('root').style.display = 'flex';
+        document.getElementById('notFound').style.display = 'none';
+        displayProducts(filteredProducts);
+      } else {
+        document.getElementById('root').style.display = 'none';
+        document.getElementById('notFound').style.display = 'flex';
+        document.getElementById('notFound').innerHTML = '<h2>No products found.</h2>';
+      }
+    }
+
+    document.getElementById('searchInput').addEventListener('input', searchProducts);
+  </script>
+</body>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Shopping Cart</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: flex-start;
+      background-image: url('https://wallpapers.com/images/hd/ducati-panigale-v2-1920x1080-motorcycle-10x61z9kjfcyf1md.jpg');
+      background-repeat: repeat;
+      background-size: cover;
+      color: white; /* Set text color to white */
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      width: 65%;
+      margin-top: 40px;
+    }
+    .box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 1px solid #0b0000;
+      padding: 10px;
+      margin: 10px;
+      width: 45%;
+    }
+    .box .img-box {
+      margin-bottom: 50px;
+    }
+    .box .img-box img {
+      width: 250px;
+      height: 350px;
+    }
+    .box .bottom {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .box p {
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+    .box h2 {
+      font-size: 18px;
+      margin-top: 0;
+    }
+    .cart {
+      position: absolute;
+      top: 50px;
+      right: 60px;
+      color: white; /* Set text color to white */
+    }
+    .cart h1 {
+      margin-top: 0;
+    }
+    .cart-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .cart-item .row-img {
+      margin-right: 100px;
+    }
+    .cart-item .rowimg {
+      width: 100px;
+      height: 100px;
+    }
+    .remove-button {
+      cursor: pointer;
+      margin-left: 10px;
+      padding: 5px 10px;
+      border: none;
+      background-color: #ccc;
+      color: #fff;
+      font-weight: bold;
+      font-size: 12px;
+    }
+    .search-bar {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+    }
+    .search-bar input {
+      width: 200px;
+      padding: 5px;
+      font-size: 16px;
+    }
+    #notFound{
+      color: black;
+      padding: 50px;
+      position: relative;
+      top: auto;
+      left: 500px;
+      /* border: 2px solid #fbfcfb;
+      background-color: rgb(238, 245, 238);
+      border-radius: 20px; */
+      
+    }
+  </style>
+</head>
+<body>
+  <div class="search-bar">
+    <input id="searchInput" type="text" placeholder="Search products">
+  </div>
+
+  <div class="cart">
+    <h1>Shopping Cart</h1>
+    <div id="cartItem"></div>
+    <div id="total"></div>
+  </div>
+
+  <div class="container" id="root"></div>
+  <div id="notFound" class="not-found"></div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    const cart = []; // Declare cart array
+
+    const product = [
+      {
+        id: 0,
+        image: 'https://www.xtrafondos.com/wallpapers/vertical/ducati-1199-panigale-s-1740.jpg',
+        title: 'ducati panigale v4',
+        price: 23295,
+      },
+      {
+        id: 1,
+        image: 'https://w0.peakpx.com/wallpaper/512/566/HD-wallpaper-kawasaki-z1000-2019-motor-motorcycle-racer-stunt-thumbnail.jpg',
+        title: 'Kawasaki Z1000',
+        price: 11000,
+      },
+      {
+        id: 2,
+        image: 'https://c4.wallpaperflare.com/wallpaper/495/554/491/2015-classic-ducati-scrambler-wallpaper-preview.jpg',
+        title: 'Ducati Scrambler',
+        price: 10995,
+      },
+      {
+        id: 3,
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWdwKuKUWWdenu8YoXaZv-Vhjoo2yIciq3YxoCwHLR-oOmRGLBN1uWSFGfPRNyYqEtBWM&usqp=CAU',
+        title: 'Triumph Tiger',
+        price: 9000,
+      },
+      {
+        id: 4,
+        image: 'https://w0.peakpx.com/wallpaper/71/828/HD-wallpaper-motorcycles-motorcycle-bmw-s1000rr-vehicles-bmw-s1000.jpg',
+        title: 'BMW S 1000 RR',
+        price: 17000,
+      },
+      {
+        id: 5,
+        image: 'https://cutewallpaper.org/22/bmw-1250-gs-wallpapers/1388726328.jpg',
+        title: 'BMW GS 1250',
+        price: 3245,
+      },
+      {
+        id: 6,
+        image: 'https://4kwallpapers.com/images/wallpapers/ducati-multistrada-v4-s-adventure-motorcycles-2021-1536x2048-3186.jpg',
+        title: 'Ducati Multistrada',
+        price: 26295,
+      },
+      {
+        id: 7,
+        image: 'https://thevocalnews.com/wp-content/uploads/2022/05/cropped-Kawasaki-Ninja-H2R-2.compressed.jpg',
+        title: 'H2 R',
+        price: 50000,
+      },
+    ];
+
+    displayProducts(product);
+
+    function addtocart(id) {
+      const selectedItem = product.find(item => item.id === id);
+      cart.push({ ...selectedItem });
+      displaycart();
+    }
+
+    function delElement(index) {
+      cart.splice(index, 1);
+      displaycart();
+    }
+
+    function displaycart() {
+      let total = 0;
+      document.getElementById("cartItem").innerHTML = cart
+        .map((item, index) => {
+          total += item.price;
+          return (
+            `<div class='cart-item'>
+              <div class='row-img'>
+                <img class='rowimg' src=${item.image}>
+              </div>
+              <p style='font-size:12px;'>${item.title}</p>
+              <h2 style='font-size: 15px;'>$ ${item.price}.00</h2>
+              <button class='remove-button' onclick='delElement(${index})'>Remove</button>
+            </div>`
+          );
+        })
+        .join('');
+
+      document.getElementById("total").innerHTML = `<h2>Total: $ ${total}.00</h2>`;
+    }
+
+    function displayProducts(products) {
+      const root = document.getElementById('root');
+
+      root.innerHTML = products
+        .map(
+          (product) => `
+            <div class='box'>
+              <div class='img-box'>
+                <img src=${product.image} alt=${product.title}>
+              </div>
+              <div class='bottom'>
+                <p>${product.title}</p>
+                <h2>$ ${product.price}.00</h2>
+                <button onclick='addtocart(${product.id})'>Add to Cart</button>
+              </div>
+            </div>
+          `
+        )
+        .join('');
+    }
+
+    function searchProducts() {
+      const searchInput = document.getElementById('searchInput').value.toLowerCase();
+      const filteredProducts = product.filter((product) =>
+        product.title.toLowerCase().includes(searchInput)
+      );
+
+      if (filteredProducts.length > 0) {
+        document.getElementById('root').style.display = 'flex';
+        document.getElementById('notFound').style.display = 'none';
+        displayProducts(filteredProducts);
+      } else {
+        document.getElementById('root').style.display = 'none';
+        document.getElementById('notFound').style.display = 'flex';
+        document.getElementById('notFound').innerHTML = '<h2>No products found.</h2>';
+      }
+    }
+
+    document.getElementById('searchInput').addEventListener('input', searchProducts);
+  </script>
+</body>
+</html>

@@ -29,4 +29,4 @@ This is a simple garage vehicle sales website similar to OLX where users can bro
 
 ## Contributing
 
--Contributions are welcome! Please fork the repository and submit a pull request with your changes.
+- Contributions are welcome! Please fork the repository and submit a pull request with your changes.
